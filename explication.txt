@@ -1,0 +1,16 @@
+```Create virtual env
+in terminal put "python -m venv venv"
+```
+```Active venv
+in terminal put "venv\Scripts\activate"
+```
+´´´Use config.py file
+Create a config.py file with owns caracteristics
+in terminal put "pip install python-dotenv" to use directly flask run
+```
+```install requests library
+inside of venv, in terminal put "pip install requests"
+´´´
+```make a requests in API
+https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount=1&symbol=<From>&convert=<To>&CMC_PRO_API_KEY=56bf6ce0-65f1-4f1f-82ef-b4d65deabe25
+´´´

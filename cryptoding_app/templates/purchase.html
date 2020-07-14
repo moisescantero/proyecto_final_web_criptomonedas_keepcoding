@@ -1,0 +1,61 @@
+<!--mostrará un formulario en el que realizar una compra, venta o intercambio de monedas. Se podrá comprar BTC en euros y vender BTC a euros,
+     el resto de cripto monedas se intercambiarán por BTC y entre ellas-->
+     {% extends "base.html" %}
+
+     {% block titulo %} CRYPTODING WEB | COMPRA {% endblock %}
+     
+     
+     {% block contenido%}
+          <b><h3 align="center">COMPRA DE CRIPTOMONEDAS</h3></b>
+     
+          <form action="/purchase" method="post">     
+               {{ form.hidden_tag() }}<!--etiqueta escondida para el csrftoken-->
+
+               {{ form.from_currency.label }}<!--mostrar etiqueta moneda de origen del campo from currency-->
+               {{ form.from_currency }}<!--mostrar el campo from_currency(lista desplegable)--> 
+               
+               {{ form.from_quantity.label }}
+               {{ form.from_quantity() }}
+               {% if form.from_quantity.errors %}              
+                    {% for error in form.from_quantity.errors %}
+                         {{ form.from_quantity.errors }}
+                    {% endfor %}
+               {% endif %}
+
+               {{ form.to_currency.label }}
+               {{ form.to_currency() }}
+
+               {{ form.to_quantity.label }} 
+               {{ form.to_quantity.data }}
+               
+               {{ form.unit_price.label }} 
+               {{ form.unit_price.data }}        
+
+
+               {{ form.calc_button }}
+
+               {% if form.to_currency.errors %}              
+                    {% for error in form.to_currency.errors %}
+                         {{ form.to_currency.errors }}
+                    {% endfor %}
+               {% endif %}
+          
+               <br>
+               {{ form.accept_button(class="button-primary") }}
+               {{ form.cancel_button }}
+               
+               
+             
+          </form>
+
+         
+
+          
+
+                 
+
+               
+               
+                    
+     {% endblock %}
+

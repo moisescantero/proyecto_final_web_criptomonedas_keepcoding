@@ -1,0 +1,10 @@
+venv/
+.vscode/
+.env
+_config.py
+__pycache__/
+config.ini
+proofs.py
+data/crypto_base.db
+
+

@@ -1,0 +1,34 @@
+<!--mostrará una tabla con los movimientos (compras y conversiones de criptomonedas) realizadas por el usuario-->
+{% extends "base.html" %}
+
+{% block titulo %} CRYPTODING WEB | ÍNDICE {% endblock %}
+
+{% block contenido%}
+
+    <b><h3 align="center">MOVIMIENTOS </h3></b>
+    <table class="status_table"><!--para colocar el ancho de toda la página-->
+        
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>From</th>
+            <th>Initial amount</th>
+            <th>To</th>
+            <th>Cryptocurrencies amount</th>
+            <th>Unit price</th>
+    
+        </tr>
+        {% for moving in movements %}<!--bucle en jinja para obtener claves y valor de nuestro diccionario-->
+        <tr>
+            <td> {{moving[1]}} </td><!--valor de region contenido en nuestro diccionario guardado en la variable region-->
+            <td> {{moving[2]}} </td><!--valor de ingresos que hay en nuestro diccionario guardado en la variable data-->
+            <td> {{moving[3]}} </td><!--valor de beneficios que hay en nuestro diccionario guardado en la variable data-->
+            <td> {{moving[4]}} </td><!--valor de beneficios que hay en nuestro diccionario guardado en la variable data-->
+            <td> {{moving[5]}} </td><!--valor de beneficios que hay en nuestro diccionario guardado en la variable data-->
+            <td> {{moving[6]}} </td><!--valor de beneficios que hay en nuestro diccionario guardado en la variable data-->
+            <td> {{moving[7]}} </td><!--valor de beneficios que hay en nuestro diccionario guardado en la variable data-->
+
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -1,0 +1,167 @@
+
+.label_from_style{
+    padding-left: 250px;
+    display: inline-block;
+}
+.list_from_style{
+    margin-left: 5px;
+    display: inline-block;
+    padding-right: 600px;
+}
+
+.label_to_style{
+    padding-left: 205px;
+    display: inline-block;
+}
+.list_to_style{
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.label_quantity_from_style{
+    padding-left: 250px;
+    display: inline-block;
+}
+.box_quantity_from_style{
+    margin-left: 5px;
+    display: inline;
+    
+}
+
+.calc_button_style{
+    display: inline-block;
+    text-align: center;
+}
+
+.label_quantity_to_style{
+    padding-left: 500px;
+    display: inline-block;
+}
+.output_quantity_to_style{
+    padding-left: 5px;
+    display: inline-block;
+}
+
+.label_unique_price_style{
+    padding-left: 1190px;
+    display: inline-block;
+}
+.output_unique_price_style{
+    padding-left: 5px;
+    display: inline-block;
+}
+
+.purchase_buttons{
+    padding-top: 50px;
+    padding-left: 1200px;
+    padding-bottom: 50px;
+}
+.status_label_investment_style{
+    padding-left: 1190px;
+    display: inline-block;
+}
+.status_button_return_style{
+    display: inline-block;
+    height: 38px;
+    padding: 0 30px;
+    color: #555;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 38px;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border-radius: 4px;
+    border: 1px solid #bbb;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin-left: 5px; 
+    margin-top: 25px;
+    margin-left: 1450px; 
+    margin-bottom: 10px;
+}
+.status_label_investment_style{
+    padding-left: 600px;
+    padding-bottom: 25px;
+    text-align: center;
+
+
+}
+
+.database_error_access{
+    text-align: center;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    
+
+}
+.own_button{
+    display: inline-block;
+    height: 38px;
+    padding: 0 30px;
+    color: #555;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 38px;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border-radius: 4px;
+    border: 1px solid #bbb;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin-left: 5px; 
+    
+}
+
+*{/*estilo genérico*/
+    padding: 0;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+header, footer {/*estilo para cabecera y pie de página*/
+    margin-bottom: 20px;
+    margin-bottom: 20px;
+    padding: 10px;/*relleno entre los bordes y el texto*/
+    background-color: #462255;/*color de fondo*/
+    color: white;/*color del texto*/
+
+}
+.status_table{/*estilo para la tabla*/
+    width: 90%;/*ancho de la tabla*/
+    margin: 10px auto;/*margen de la tabla con la página*/
+    border: 1px solid #645E9D;/*borde de la tabla*/
+}
+td, th{/*estilo para celda de datos(td) y celdas de cabecera(th)*/
+    border: 1px solid #645E9D;/*borde de la celda*/
+    padding: 2px;/*relleno entre borde de celda y texto*/
+    text-align: center;/*alineación del texto dentro de la celda*/
+}
+th{/*otro estilo solo para las celdas de cabecera*/
+    background-color: #645E9D;/*color de fondo*/
+    color: white;/*color del texto*/
+}
+
+.own_header{ /*estilo concreto creado para una clase(class="region" en paises.html) y poder modificar una td en concreto*/
+    font-weight: bold;/*estilo negrita para el texto*/
+    color: black;/*colo del texto*/
+    text-align: center;/*alineación del texto dentro de la celda*/
+}
+
+
+.error-msg {
+    color: red;
+    font-size: 0.8em;
+    text-align: right;
+    margin-top: -15px;
+}
+
+input.error {
+    border-color: red;
+}
