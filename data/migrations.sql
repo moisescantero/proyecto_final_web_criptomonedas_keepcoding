@@ -1,16 +1,18 @@
-CREATE TABLE "cryptos" ("id" INTEGER PRIMARY KEY IDENTITY, 
-                        "symbol" TEXT, 
-                        "name" TEXT
-                        );
-                        
-CREATE TABLE "movements"("id" INTEGER PRIMARY KEY IDENTITY UNIQUE, 
-                        "date" TEXT, 
-                        "time" TEXT, 
-                        "from_currency" INTEGER, 
-                        "from_quantity" REAL, 
-                        "to_currency" INTEGER, 
-                        "to_quantity" REAL, 
-                        "unit_price" REAL, 
-                        FOREIGN KEY("from_currency") REFERENCES "cryptos"("symbol"), 
-                        FOREIGN KEY("to_currency") REFERENCES "cryptos"("symbol")
-                        );
+"""AUNQUE MARQUE ERRORES ESTA SENTENCIAS FUNCIONAN EN SQLITE3 PARA CREAR LAS TABLAS CRYPTOS Y MOVEMENTS"
+
+CREATE TABLE "cryptos" (
+	"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
+	"symbol"	TEXT,
+	"name"	TEXT
+    );
+
+CREATE TABLE "movements"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+    "date" TEXT, "time" TEXT, 
+    "from_currency" INTEGER, "from_quantity" REAL, 
+    "to_currency" INTEGER, 
+    "to_quantity" REAL, 
+    "unit_price" REAL, 
+    FOREIGN KEY("from_currency") REFERENCES "cryptos"("symbol"), 
+    FOREIGN KEY("to_currency") REFERENCES "cryptos"("symbol")
+    )

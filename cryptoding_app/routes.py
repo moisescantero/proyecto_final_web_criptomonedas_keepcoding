@@ -4,19 +4,17 @@ from cryptoding_app.forms import ProductForm#importar clase productform para usa
 import sqlite3, requests#importar para usar la base de datos y hacer peticones
 from datetime import datetime#importar para usar la fecha y hora del sistema y añadir en base de datos
 from wtforms.validators import ValidationError
-from listing_using_api import showing_coins, listing_cryptos
+from listing_using_api import listing_cryptos
 from conversion_using_api import find_cryptos
+from showing_coins_api import showing_coins
 
-symbols_list = listing_cryptos()
+
 
 @app.route("/")
 def movements():
     
     conn = sqlite3.connect(app.config["BASE_DATOS"])#conexión a base de datos(en ficehro _config.py)
     cur = conn.cursor()#crear cursor para conexión
-    
-    query = 'CREATE TABLE IF NOT EXISTS "movements"("id" INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "date" TEXT, "time" TEXT, "from_currency" INTEGER, "from_quantity" REAL, "to_currency" INTEGER, "to_quantity" REAL, "unit_price" REAL, FOREIGN KEY("from_currency") REFERENCES "cryptos"("symbol"), FOREIGN KEY("to_currency") REFERENCES "cryptos"("symbol"));'
-    cur.execute(query)#cursor ejecuta la query para crear tabla movements si no existe con los campos indicados
     
     hayregistros = ('SELECT * FROM movements')#petición query para usar dentro de la base de datos y saber si hay registros en la tabla
     registros = cur.execute(hayregistros).fetchall()#cursor ejecuta la query para comprobar si existen registros en la tabla movimientos
@@ -32,12 +30,13 @@ def movements():
 @app.route("/purchase", methods=['GET','POST'])
 def purchase():
     form = ProductForm(request.form)
-        
+    
     now = datetime.now()
     time = str(now.time())
     time = time[0:8]
     
     if request.method == "GET":#PETICIÓN GET SOLO PARA OBTENER DATOS
+        
         return render_template("purchase.html", form=form)
     
     else:#PETICIÓN POST PARA ENVIAR DATOS SIEMPRE (NO SE VEN LOS DATOS EN EL NAVEGADOR Y ES MÁS SEGURO)

@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm, Form#clase básica del formulario para heredar campos, tipo de campos, validaciones, etc
 from wtforms import StringField, FloatField, SubmitField, HiddenField, SelectField, Field
 from wtforms.validators import DataRequired, Length, ValidationError
-from listing_using_api import showing_coins, listing_cryptos
-from conversion_using_api import find_cryptos
+from showing_coins_api import showing_coins
+
 
 def valida_posibilidad_compra(form, field):
     if field.data == form.from_currency.data:#solo convertir entre monedas distintas
@@ -12,12 +12,9 @@ def valida_posibilidad_compra(form, field):
     elif field.data == "EUR" and form.from_currency.data != "BTC":#solo convertir de BTC a otras criptomonedas
         raise ValidationError("Solo conversión de otras criptomonedas a BTC.")
 
-
-
 def validate_length(form, field):#validas campo cantidad from sea positiva
     if field.data < 0:
         raise ValidationError("Debe introducir valores positivos.")
-
 
 coins_list = showing_coins()
 
