@@ -57,15 +57,50 @@ def purchase():
             
             
             else:
-               
                 conn = sqlite3.connect(app.config["BASE_DATOS"])#ABRIR CONEXIÓN A BASE DE DATOS(en ficehro _config.py)
                 cur = conn.cursor()#CREAR CURSOR PARA USAR DURANTE LA CONEXIÓN
-                query_saldo = "SELECT sum(to_quantity) from movements WHERE from_currency = '{}'".format(request.values.get('from_currency'))                
-                hay_saldo = cur.execute(query_saldo).fetchall()
-                if float(hay_saldo[0]) > float(request.values.get("from_quantity")):
-                    print("Saldo de {}.".format(hay_saldo))
+
+                query_saldo_from = "SELECT sum(from_quantity) from movements WHERE from_currency = '{}'".format(request.values.get('from_currency'))
+                cantidad_from=cur.execute(query_saldo_from).fetchall()#cantidad_from[0][0] es el valor float que necesito
+                saldo_from = cantidad_from[0][0]#saldo_from es un float
+
+                query_saldo_to = "SELECT sum(to_quantity) from movements WHERE from_currency = '{}'".format(request.values.get('from_currency'))
+                cantidad_to=cur.execute(query_saldo_to).fetchall()#cantidad_from[0][0] es el valor float que necesito
+                saldo_to = cantidad_to[0][0]#saldo_to es un float             
+                
+                if request.values.get('from_currency') == "EUR" and request.values.get('to_currency') == "BTC":
+                    conn = sqlite3.connect(app.config["BASE_DATOS"])#ABRIR CONEXIÓN A BASE DE DATOS(en ficehro _config.py)
+                    cur = conn.cursor()#CREAR CURSOR PARA USAR DURANTE LA CONEXIÓN
+                    query = 'INSERT INTO movements (date, time, from_currency,from_quantity,to_currency, to_quantity, unit_price ) VALUES (?, ?, ?, ?, ?, ?, ?);'#petición query para usar dentro de la base de datos
+                    datos = (str(now.date()), time, request.values.get("from_currency"), request.values.get("from_quantity"), request.values.get("to_currency"), float(form.to_quantity.data), form.unit_price.data)#recuperar datos del formulario html usando request                    cur.execute(query,datos)#ejecutar petición query(sqlite) con los datos obtenidos(request)
+                    conn.commit()#EN INSERT HACER SIEMPRE COMMIT O NO GRABA EN BASE DE DATOS
+                    conn.close()#SIEMPRE CERRAR LA CONEXIÓN A BASE DE DATOS PARA EVITAR POSIBLES INTRUSIONES
+                    print("Comprando saldo de {} a {}.".format(request.values.get('from_currency'),request.values.get('to_currency')))
+                
+                elif request.values.get('from_currency') == "BTC" and request.values.get('to_currency') != "BTC":
+                    if request.values.get('from_currency') == "BTC" and request.values.get('to_currency') == "EUR":
+                        form.to_quantity.data = find_cryptos()#llamo a endpoint para conseguir la conversión entre monedas y cantidad introducida en form de html,
+                        #cuando se hace un post se devuelve un formulario con los campos que yo he especificado y uno de ellos es el form.to_quantity.data
+                        #donde tengo el valor del precio de la conversión.
+                        form.unit_price.data = form.to_quantity.data/float(request.values.get("from_quantity"))#form.unit_price.data es el valor de mi 
+                        #campo creado al hacer el formulario y su definición es form.unit_price.data y así para cualquier campo del formulario.
+                        """
+                        conn = sqlite3.connect(app.config["BASE_DATOS"])#ABRIR CONEXIÓN A BASE DE DATOS(en ficehro _config.py)
+                        cur = conn.cursor()#CREAR CURSOR PARA USAR DURANTE LA CONEXIÓN
+                        query = 'INSERT INTO movements (date, time, from_currency,from_quantity,to_currency, to_quantity, unit_price ) VALUES (?, ?, ?, ?, ?, ?, ?);'#petición query para usar dentro de la base de datos
+                        datos = (str(now.date()), time, request.values.get("from_currency"), request.values.get("from_quantity"), request.values.get("to_currency"), float(form.to_quantity.data), form.unit_price.data)#recuperar datos del formulario html usando request                    cur.execute(query,datos)#ejecutar petición query(sqlite) con los datos obtenidos(request)
+                        conn.commit()#EN INSERT HACER SIEMPRE COMMIT O NO GRABA EN BASE DE DATOS
+                        conn.close()#SIEMPRE CERRAR LA CONEXIÓN A BASE DE DATOS PARA EVITAR POSIBLES INTRUSIONES
+                        """
+                        print("Comprando saldo de {} a {}.".format(request.values.get('from_currency'),request.values.get('to_currency')))
+                    else:
+
+                        print("Comprando saldo de {} a {}.".format(request.values.get('from_currency'),request.values.get('to_currency')))
+
+                elif request.values.get('from_currency') != "BTC" and request.values.get('to_currency') != "BTC":
+                    print("Comprando saldo de {} a {}.".format(request.values.get('from_currency'),request.values.get('to_currency')))
                 else:
-                    print("Saldo insuficiente")
+                    print("Comprando saldo de {} a {}.".format(request.values.get('from_currency'),request.values.get('to_currency')))
                 """
                 conn = sqlite3.connect(app.config["BASE_DATOS"])#ABRIR CONEXIÓN A BASE DE DATOS(en ficehro _config.py)
                 cur = conn.cursor()#CREAR CURSOR PARA USAR DURANTE LA CONEXIÓN
