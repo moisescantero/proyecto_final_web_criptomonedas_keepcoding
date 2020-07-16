@@ -4,7 +4,9 @@ from configparser import *
 from cryptoding_app import app
 
 
+
 def listing_cryptos():
+        
     conn = sqlite3.connect(app.config["BASE_DATOS"])#conexión a base de datos(en ficehro _config.py)
     cur = conn.cursor()#crear cursor para conexión
 
@@ -31,4 +33,5 @@ def listing_cryptos():
     conn.close()#cerrar conexión con la base de datos
     return crypto_dict
 
-#result = listing_cryptos()
+
+result = listing_cryptos()
