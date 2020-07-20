@@ -15,7 +15,7 @@ def movements():
     conn = sqlite3.connect(app.config["BASE_DATOS"])#conexión a base de datos(en ficehro _config.py)
     cur = conn.cursor()#crear cursor para conexión
     
-    hayregistros = ('SELECT * FROM movements')#petición query para usar dentro de la base de datos y saber si hay registros en la tabla
+    hayregistros = ('SELECT * FROM movements;')#petición query para usar dentro de la base de datos y saber si hay registros en la tabla
     registros = cur.execute(hayregistros).fetchall()#cursor ejecuta la query para comprobar si existen registros en la tabla movimientos
 
     if len(registros) == 0:#si no hay registros
@@ -41,14 +41,15 @@ def purchase():
     else:#PETICIÓN POST PARA ENVIAR DATOS SIEMPRE (NO SE VEN LOS DATOS EN EL NAVEGADOR Y ES MÁS SEGURO)
     
         if request.form.get("calc_button") == "Calcular":
-            form.to_quantity.data = find_cryptos()#llamo a endpoint para conseguir la conversión entre monedas y cantidad introducida en form de html,
-                #cuando se hace un post se devuelve un formulario con los campos que yo he especificado y uno de ellos es el form.to_quantity.data
-                #donde tengo el valor del precio de la conversión.
-            form.unit_price.data = form.to_quantity.data/float(request.values.get("from_quantity"))#form.unit_price.data es el valor de mi 
-                #campo creado al hacer el formulario y su definición es form.unit_price.data y así para cualquier campo del formulario.
             
-            return render_template("purchase.html", form=form)#retornar a template o vista html con los valores del diccionario que hay en form
-            
+                form.to_quantity.data = find_cryptos()#llamo a endpoint para conseguir la conversión entre monedas y cantidad introducida en form de html,
+                    #cuando se hace un post se devuelve un formulario con los campos que yo he especificado y uno de ellos es el form.to_quantity.data
+                    #donde tengo el valor del precio de la conversión.
+                form.unit_price.data = form.to_quantity.data/float(request.values.get("from_quantity"))#form.unit_price.data es el valor de mi 
+                    #campo creado al hacer el formulario y su definición es form.unit_price.data y así para cualquier campo del formulario.
+                
+                return render_template("purchase.html", form=form)#retornar a template o vista html con los valores del diccionario que hay en form
+             
         elif request.form.get("cancel_button") == "Cancelar":
             return redirect(url_for("movements"))#redirigir a template o vista html para mostrar valores grabados en tabla movimientos.
 
@@ -115,7 +116,7 @@ def purchase():
                     else:
                         return render_template("purchase.html", form=form)#retornar a template o vista html con los valores del diccionario que hay en form
 
-            elif request.values.get('from_currency') != "BTC" and request.values.get('to_currency') != "BTC":#SI ORIGEN ES OTRA CRIPTO Y DESTINO TAMBIÉN OTRA CRIPTOMONEDA
+            elif request.values.get('from_currency') != "BTC" and request.values.get('to_currency') != "BTC":#SI ORIGEN ES CRIPTO Y DESTINO TAMBIÉN OTRA CRIPTOMONEDA
                 if form.validate():
                     form.to_quantity.data = find_cryptos()#llamo a función para conseguir la conversión entre monedas y cantidad introducida en form de html,
                     #cuando se hace un post se devuelve un formulario con los campos que yo he especificado y uno de ellos es el form.to_quantity.data
@@ -157,14 +158,43 @@ def purchase():
             
 @app.route("/status")
 def status():
+    tupla_criptos = ("EUR", "ADA", "BCH", "BNB", "BSV", "BTC", "EOS", "ETH", "LTC", "TRX", "USDT", "XLM")
     
     conn = sqlite3.connect(app.config["BASE_DATOS"])#conexión a base de datos(en ficehro _config.py)
     cur = conn.cursor()#crear cursor para conexión
-
-    query = 'SELECT to_currency, to_quantity FROM movements;'#petición query para usar dentro de la base de datos
     
-    cur.execute(query)#ejecutar petición query(sqlite) con los datos obtenidos(request)
+    hayregistros = ('SELECT * FROM movements')#petición query para usar dentro de la base de datos y saber si hay registros en la tabla
+    registros = cur.execute(hayregistros).fetchall()#cursor ejecuta la query para comprobar si existen registros en la tabla movimientos
 
-    conn.close()#SIEMPRE CERRAR LA CONEXIÓN A BASE DE DATOS PARA EVITAR POSIBLES INTRUSIONES    
-    return render_template("status.html")
+    if len(registros) == 0:#si no hay registros
+        return render_template("without_moves.html")
+    else:#si existen registros
+        #CALCULAR SALDO EUROS INVERTIDOS
+        query_saldo_disponible_EUR = 'SELECT SUM(to_quantity) FROM movements WHERE to_currency = "EUR";'
+        cantidad_disponible_EUR=cur.execute(query_saldo_disponible_EUR).fetchall()#cantidad_from[0][0] es el valor float que necesito
+        saldo_disponible_EUR = cantidad_disponible_EUR[0][0]#saldo_from es un float para comprobar si hay saldo suficiente de criptomoneda introducida
+        query_saldo_gastado_EUR = 'SELECT SUM(from_quantity) FROM movements WHERE from_currency = "EUR";'
+        cantidad_gastado_EUR=cur.execute(query_saldo_gastado_EUR).fetchall()#cantidad_from[0][0] es el valor float que necesito
+        saldo_gastado_EUR = cantidad_gastado_EUR[0][0]#saldo_from es un float para comprobar si hay saldo suficiente de criptomoneda introducida
+        total_saldo_inversión_EUR = (saldo_disponible_EUR - saldo_gastado_EUR)
+        
+        #CALCULAR TOTAL EUROS INVERTIDOS
+        query_saldo_disponible_EUR = 'SELECT SUM(to_quantity) FROM movements WHERE to_currency = "EUR";'
+        cantidad_disponible_EUR=cur.execute(query_saldo_disponible_EUR).fetchall()#cantidad_from[0][0] es el valor float que necesito
+        total_saldo_disponible_EUR = cantidad_disponible_EUR[0][0]#saldo_from es un float para comprobar si hay saldo suficiente de criptomoneda introducida
+        
+        #CALCULAR VALOR ACTUAL DE CADA CRIPTOMONEDA EN EUROS
+        for cripto in tupla_criptos:
+            query_saldo_disponible = "SELECT SUM(to_quantity) FROM movements WHERE to_currency = '{}'".format(cripto)
+            cantidad_disponible=cur.execute(query_saldo_disponible).fetchall()#cantidad_from[0][0] es el valor float que necesito
+            saldo_disponible = cantidad_disponible[0][0]#saldo_disponible para calcular cada conversión de criptomoneda a EUR
+            
+            cur.execute(query)#ejecutar petición query(sqlite) con los datos obtenidos(request)
+
+            conn.close()#SIEMPRE CERRAR LA CONEXIÓN A BASE DE DATOS PARA EVITAR POSIBLES INTRUSIONES    
+            
+        
+        
+        return render_template("status.html")
+    
 

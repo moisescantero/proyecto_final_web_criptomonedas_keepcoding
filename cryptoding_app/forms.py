@@ -36,7 +36,7 @@ def valida_saldo(form,field):
     conn.close()#SIEMPRE CERRAR LA CONEXIÓN A BASE DE DATOS PARA EVITAR POSIBLES INTRUSIONES                            
     
     if saldo_disponible == None and saldo_invertido == None:
-        raise ValidationError("Saldo insuficiente de {} y de {}.".format(request.values.get('from_currency'),request.values.get('to_currency')))
+        raise ValidationError("Todavía no dispone de saldo de BTC.")
     
     if saldo_disponible and saldo_invertido == None:
         saldo_disponible = saldo_disponible
@@ -61,9 +61,9 @@ class ProductForm(FlaskForm):
     from_currency = SelectField(u"Moneda de origen:", choices=[(coin, coin) for coin in coins_list])#en variable from_currency definir lista
                 #desplegable con valores de criptomonedas
 
-    from_quantity = FloatField("Cantidad invertida: ", validators=[DataRequired(message="Debe introducir números."), validate_length])#campo para cantidad definido con float y validado como requerido
+    from_quantity = FloatField("Cantidad invertida: ", validators=[DataRequired(message="Debe introducir números."), validate_length, valida_saldo])#campo para cantidad definido con float y validado como requerido
     
-    to_currency = SelectField(u"Moneda de destino:", choices=[(coin, coin) for coin in coins_list], validators=[valida_posibilidad_compra, valida_saldo])
+    to_currency = SelectField(u"Moneda de destino:", choices=[(coin, coin) for coin in coins_list], validators=[valida_posibilidad_compra])
                 #lista desplegable para moneda destino con valores de coins_list y con validator específico
     
     to_quantity = HiddenField("Cantidad obtenida: ")

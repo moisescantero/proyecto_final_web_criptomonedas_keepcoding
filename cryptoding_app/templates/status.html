@@ -13,36 +13,30 @@
         <div>
             <a class="status_button_return_style" href="/">Return</a>
         </div>
-    
-        
-        <div class="status_label_investment_style">
-            <label for="investment">Inversión:</label>
-            
-        </div>
-
-        <div class="output_quantity_to_style">
-            <label>_________________________</label>
-        </div>
 
         <table class="status_table"><!--para colocar el ancho de toda la página-->
-    
+        
             <tr>
-                <th>Criptomoneda</th>
-                <th>Cantidad</th>                
-    
+                <th>Saldo de EUR invertidos</th>
+                <th>Total de EUR invertidos</th>
+                <th>Valor actual de CRIPTOS a EUR</th>
+                <th>Valor actual</th>
+                
+        
             </tr>
-            {% for moving in movements %}<!--bucle en jinja para obtener claves y valor de nuestro diccionario-->
+            {% for cripto in status %}<!--bucle en jinja para obtener claves y valor de nuestro diccionario-->
             <tr>
-                <td> {{moving[1]}} </td><!--valor de region contenido en nuestro diccionario guardado en la variable region-->
-                <td> {{moving[2]}} </td><!--valor de ingresos que hay en nuestro diccionario guardado en la variable data-->
+                <td> {{cripto[1]}} </td><!--valor de region contenido en nuestro diccionario guardado en la variable region-->
+                <td> {{cripto[2]}} </td><!--valor de ingresos que hay en nuestro diccionario guardado en la variable data-->
+                <td> {{cripto[3]}} </td><!--valor de beneficios que hay en nuestro diccionario guardado en la variable data-->
+                <td> {{cripto[4]}} </td><!--valor de beneficios que hay en nuestro diccionario guardado en la variable data-->
     
             </tr>
             {% endfor %}
         </table>
-
            
             
-        </div>
+    
 
 
 
