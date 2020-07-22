@@ -48,7 +48,7 @@ def valida_saldo(form,field):
         saldo_total = saldo_disponible-saldo_invertido
         return True
     else:
-        raise ValidationError("Saldo insuficiente de {}.".format(request.values.get('from_currency')))
+        raise ValidationError("Saldo insuficiente".format(request.values.get('from_currency')))
     
     
 

@@ -24,15 +24,31 @@
                 
         
             </tr>
-            {% for cripto in status %}<!--bucle en jinja para obtener claves y valor de nuestro diccionario-->
+           <!--bucle en jinja para obtener claves y valor de nuestro diccionario-->
             <tr>
-                <td> {{cripto[1]}} </td><!--valor de region contenido en nuestro diccionario guardado en la variable region-->
-                <td> {{cripto[2]}} </td><!--valor de ingresos que hay en nuestro diccionario guardado en la variable data-->
-                <td> {{cripto[3]}} </td><!--valor de beneficios que hay en nuestro diccionario guardado en la variable data-->
-                <td> {{cripto[4]}} </td><!--valor de beneficios que hay en nuestro diccionario guardado en la variable data-->
-    
+                {% for saldo_euro in diferencia_euro %}
+                <td> {{saldo_euro | round(8, 'ceil')}} </td><!--valor de region contenido en nuestro diccionario guardado en la variable region-->
+                {% endfor %}
+
+                {% for euro in cantidad_disponible_EUR %}
+                <td> {{euro[0] | round(8, 'ceil')}} </td><!--valor de ingresos que hay en nuestro diccionario guardado en la variable data-->
+                {% endfor %}
+                <td>
+                
+                {% for symbol in dict_criptos %}
+                    <li>{{symbol}} {{"-"}} {{dict_criptos[symbol] | round(8, 'ceil')}} {{ "EUR" }}</li>
+                {% endfor %}
+                
+                {% for money in total_criptos_a_euro %}
+                    {{"Total euros"}} {{"-"}} {{money}} {{ "EUR" }}
+                {% endfor %}
+
+                </td>
+                {% for valor in valor_actual %}
+                <td> {{valor | round(8, 'ceil')}} </td><!--valor de region contenido en nuestro diccionario guardado en la variable region-->
+                {% endfor %}
             </tr>
-            {% endfor %}
+
         </table>
            
             
