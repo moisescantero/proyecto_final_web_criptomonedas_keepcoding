@@ -1,9 +1,14 @@
 
 import requests, sqlite3
-from configparser import *
+from configparser import ConfigParser
 from cryptoding_app import app
 
-
+"""
+#esconder la APIKEY en fichero config.ini NO FUNCIONA
+config = ConfigParser()
+config.read('./config.ini')
+APIKEY = config["COINMARKET_API"]["APIKEY"]
+"""
 
 def listing_cryptos():
         
@@ -11,7 +16,7 @@ def listing_cryptos():
     cur = conn.cursor()#crear cursor para conexión
 
     APIKEY = "56bf6ce0-65f1-4f1f-82ef-b4d65deabe25"
-
+    
     URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map?CMC_PRO_API_KEY={}&symbol=BTC,ETH,XRP,LTC,BCH,BNB,USDT,EOS,BSV,XLM,ADA,TRX"
 
     respuesta = requests.get(URL.format(APIKEY))

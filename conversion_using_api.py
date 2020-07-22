@@ -4,11 +4,11 @@ import requests
 from configparser import *
 from flask import Flask, render_template, request, redirect, url_for
  
-
-"""#esconder la APIKEY en fichero config.ini NO FUNCIONA
+"""
+#esconder la APIKEY en fichero config.ini NO FUNCIONA
 config = ConfigParser()
-config.read("config.ini")
-APIKEY = config["APIKEY"]
+config.read('./config.ini')
+APIKEY = config['DEFAULT']['APIKEY']
 """
 
 
