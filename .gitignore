@@ -4,6 +4,6 @@ venv/
 _config.py
 __pycache__/
 config.ini
-
+data/crypto_base.db
 
 
