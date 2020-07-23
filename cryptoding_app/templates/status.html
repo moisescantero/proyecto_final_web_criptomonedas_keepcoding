@@ -30,8 +30,8 @@
                 <td> {{saldo_euro | round(8, 'ceil')}} </td><!--valor de region contenido en nuestro diccionario guardado en la variable region-->
                 {% endfor %}
 
-                {% for euro in cantidad_disponible_EUR %}
-                <td> {{euro[0] | round(8, 'ceil')}} </td><!--valor de ingresos que hay en nuestro diccionario guardado en la variable data-->
+                {% for euro in cantidad_to_EUR %}
+                <td> {{euro[0]}} </td><!--valor de ingresos que hay en nuestro diccionario guardado en la variable data-->
                 {% endfor %}
                 <td>
                 

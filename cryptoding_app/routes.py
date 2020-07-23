@@ -172,17 +172,27 @@ def status():
         conn = sqlite3.connect(app.config["BASE_DATOS"])#conexión a base de datos(en ficehro _config.py)
         cur = conn.cursor()#crear cursor para conexión
         
-        query_saldo_disponible_EUR = 'SELECT SUM(to_quantity) FROM movements WHERE to_currency = "EUR";'
-        cantidad_disponible_EUR=cur.execute(query_saldo_disponible_EUR).fetchall()#cantidad_from[0][0] es el valor float que necesito
-        saldo_disponible_EUR = cantidad_disponible_EUR[0][0]#saldo_from es un float para comprobar si hay saldo suficiente de criptomoneda introducida
+        query_saldo_to_EUR = 'SELECT SUM(to_quantity) FROM movements WHERE to_currency = "EUR";'
+        cantidad_to_EUR=cur.execute(query_saldo_to_EUR).fetchall()#cantidad_from[0][0] es el valor float que necesito
+        if cantidad_to_EUR[0][0] == None:
+            cantidad_to_EUR.pop()
+            cantidad_to_EUR.append(0.0)
+            saldo_to_EUR = cantidad_to_EUR[0]#saldo_from es un float para comprobar si hay saldo suficiente de criptomoneda introducida
+        else:
+            saldo_to_EUR = cantidad_to_EUR[0][0]#saldo_from es un float para comprobar si hay saldo suficiente de criptomoneda introducida
+
+        query_saldo_from_EUR = 'SELECT SUM(from_quantity) FROM movements WHERE from_currency = "EUR";'
+        cantidad_from_EUR=cur.execute(query_saldo_from_EUR).fetchall()#cantidad_from[0][0] es el valor float que necesito
+        saldo_from_EUR = cantidad_from_EUR[0][0]#saldo_from es un float para comprobar si hay saldo suficiente de criptomoneda introducida
         
-        query_saldo_gastado_EUR = 'SELECT SUM(from_quantity) FROM movements WHERE from_currency = "EUR";'
-        cantidad_gastado_EUR=cur.execute(query_saldo_gastado_EUR).fetchall()#cantidad_from[0][0] es el valor float que necesito
-        saldo_gastado_EUR = cantidad_gastado_EUR[0][0]#saldo_from es un float para comprobar si hay saldo suficiente de criptomoneda introducida
-        
-        diferencia_euro = []
-        total_saldo_inversión_EUR = round((saldo_disponible_EUR - saldo_gastado_EUR),8)
-        diferencia_euro.append(total_saldo_inversión_EUR)
+        if saldo_to_EUR == None and saldo_from_EUR != None:
+            diferencia_euro = []
+            total_saldo_inversión_EUR = round((saldo_from_EUR),8)
+            diferencia_euro.append(total_saldo_inversión_EUR)
+        else:
+            diferencia_euro = []
+            total_saldo_inversión_EUR = round((saldo_to_EUR - saldo_from_EUR),8)
+            diferencia_euro.append(total_saldo_inversión_EUR)
 
         conn.close()#SIEMPRE CERRAR LA CONEXIÓN A BASE DE DATOS PARA EVITAR POSIBLES INTRUSIONES    
 
@@ -191,9 +201,24 @@ def status():
         conn = sqlite3.connect(app.config["BASE_DATOS"])#conexión a base de datos(en ficehro _config.py)
         cur = conn.cursor()#crear cursor para conexión
 
-        query_saldo_disponible_EUR = 'SELECT SUM(to_quantity) FROM movements WHERE to_currency = "EUR";'
-        cantidad_disponible_EUR=cur.execute(query_saldo_disponible_EUR).fetchall()#cantidad_from[0][0] es el valor float que necesito
-        total_saldo_disponible_EUR = cantidad_disponible_EUR[0][0]#saldo_from es un float para comprobar si hay saldo suficiente de criptomoneda introducida
+        query_saldo_to_EUR = 'SELECT SUM(to_quantity) FROM movements WHERE to_currency = "EUR";'
+        cantidad_to_EUR=cur.execute(query_saldo_to_EUR).fetchall()#cantidad_from[0][0] es el valor float que necesito
+        if cantidad_to_EUR[0][0] == None:
+            cantidad_to_EUR.pop()
+            cantidad_to_EUR.append(0.0)
+            saldo_to_EUR = cantidad_to_EUR[0]#saldo_from es un float para comprobar si hay saldo suficiente de criptomoneda introducida
+        else:
+            saldo_to_EUR = cantidad_to_EUR[0][0]#saldo_from es un float para comprobar si hay saldo suficiente de criptomoneda introducida
+
+        if saldo_to_EUR == None and saldo_from_EUR != None:
+            diferencia_euro = []
+            total_inversión_EUR = round((saldo_from_EUR),8)
+            diferencia_euro.append(total_inversión_EUR)
+        else:
+            diferencia_euro = []
+            total_inversión_EUR = round((saldo_to_EUR - saldo_from_EUR),8)
+            diferencia_euro.append(total_inversión_EUR)
+
         conn.close()#SIEMPRE CERRAR LA CONEXIÓN A BASE DE DATOS PARA EVITAR POSIBLES INTRUSIONES    
 
     
@@ -206,17 +231,17 @@ def status():
 
         for cripto in dict_criptos:
             
-            query_saldo_disponible_cripto = ('SELECT SUM(to_quantity) FROM movements WHERE to_currency = "{}";'.format(cripto))
-            cantidad_disponible_cripto=cur.execute(query_saldo_disponible_cripto).fetchall()#cantidad_from[0][0] es el valor float que necesito
-            saldo_disponible_cripto = cantidad_disponible_cripto[0][0]#saldo_from es un float para comprobar si hay saldo suficiente de criptomoneda introducida
+            query_saldo_to_cripto = ('SELECT SUM(to_quantity) FROM movements WHERE to_currency = "{}";'.format(cripto))
+            cantidad_to_cripto=cur.execute(query_saldo_to_cripto).fetchall()#cantidad_from[0][0] es el valor float que necesito
+            saldo_to_cripto = cantidad_to_cripto[0][0]#saldo_from es un float para comprobar si hay saldo suficiente de criptomoneda introducida
         
-            query_saldo_gastado_cripto = ('SELECT SUM(from_quantity) FROM movements WHERE from_currency = "{}";'.format(cripto))
-            cantidad_gastado_cripto=cur.execute(query_saldo_gastado_cripto).fetchall()#cantidad_from[0][0] es el valor float que necesito
-            saldo_gastado_cripto = cantidad_gastado_cripto[0][0]#saldo_from es un float para comprobar si hay saldo suficiente de criptomoneda introducida
+            query_saldo_from_cripto = ('SELECT SUM(from_quantity) FROM movements WHERE from_currency = "{}";'.format(cripto))
+            cantidad_from_cripto=cur.execute(query_saldo_from_cripto).fetchall()#cantidad_from[0][0] es el valor float que necesito
+            saldo_from_cripto = cantidad_from_cripto[0][0]#saldo_from es un float para comprobar si hay saldo suficiente de criptomoneda introducida
 
-            if saldo_disponible_cripto != None and saldo_gastado_cripto != None:#si se ha invertido y gastado
+            if saldo_to_cripto != None and saldo_from_cripto != None:#si se ha invertido y gastado
 
-                total_saldo_inversión_cripto = round((saldo_disponible_cripto - saldo_gastado_cripto),8)
+                total_saldo_inversión_cripto = round((saldo_to_cripto - saldo_from_cripto),8)
 
                 if total_saldo_inversión_cripto > 0.00:
                     #CONSULTA A API CON SALDO SOBRANTE PARA CONVERTIR A EUROS
@@ -232,11 +257,11 @@ def status():
                 else:
                     pass
 
-            elif saldo_disponible_cripto != None and saldo_gastado_cripto == None:#si se ha invertido pero no se ha gastado
-                if saldo_disponible_cripto > 0.0:
+            elif saldo_to_cripto != None and saldo_from_cripto == None:#si se ha invertido pero no se ha gastado
+                if saldo_to_cripto > 0.0:
                     APIKEY = "56bf6ce0-65f1-4f1f-82ef-b4d65deabe25"
                     URL = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={}&symbol={}&convert={}&CMC_PRO_API_KEY={}"
-                    respuesta = requests.get(URL.format(saldo_disponible_cripto, cripto, "EUR", APIKEY))
+                    respuesta = requests.get(URL.format(saldo_to_cripto, cripto, "EUR", APIKEY))
                     mijson = respuesta.json()
                     price_currency = mijson.get("data").get("quote").get("EUR")["price"]
                     dict_criptos[cripto] = round(price_currency,8)
@@ -253,14 +278,18 @@ def status():
         
         #CALCULANDO EL VALOR ACTUAL
         valor_actual = []
-        valor_actual.append(total_saldo_inversión_EUR + total_saldo_disponible_EUR + suma_criptos_a_euros)
+
+        if total_saldo_inversión_EUR != None and total_inversión_EUR == None and suma_criptos_a_euros != None:
+            valor_actual.append(total_saldo_inversión_EUR + total_inversión_EUR + suma_criptos_a_euros)
+        else:
+            valor_actual.append(total_saldo_inversión_EUR + total_inversión_EUR + suma_criptos_a_euros)
+
 
         conn.close()#SIEMPRE CERRAR LA CONEXIÓN A BASE DE DATOS PARA EVITAR POSIBLES INTRUSIONES    
-        print(dict_criptos)
-        print(valor_actual)
+        
         #renderizar lo que hay en las lista pasándolo al template status y que se muestre según especifiacamos usando jinja
         return render_template("status.html",diferencia_euro=diferencia_euro,
-                            cantidad_disponible_EUR=cantidad_disponible_EUR,
+                            cantidad_to_EUR=cantidad_to_EUR,
                             dict_criptos=dict_criptos, total_criptos_a_euro=total_criptos_a_euro,
                             valor_actual=valor_actual)
     
