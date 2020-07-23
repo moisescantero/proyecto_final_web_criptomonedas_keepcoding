@@ -65,7 +65,7 @@ def purchase():
                 conn = sqlite3.connect(app.config["BASE_DATOS"])#ABRIR CONEXIÓN A BASE DE DATOS(en fichero _config.py)
                 cur = conn.cursor()#CREAR CURSOR PARA USAR DURANTE LA CONEXIÓN
                 query = "INSERT INTO movements (date, time, from_currency,from_quantity,to_currency, to_quantity, unit_price ) VALUES (?, ?, ?, ?, ?, ?, ?);"#petición query para usar dentro de la base de datos
-                datos = (str(now.date()), time, request.values.get("from_currency"), request.values.get("from_quantity"), request.values.get("to_currency"), float(form.to_quantity.data), form.unit_price.data)#recuperar datos del formulario html usando request                    cur.execute(query,datos)#ejecutar petición query(sqlite) con los datos obtenidos(request)
+                datos = (str(now.date()), time, request.values.get("from_currency"), request.values.get("from_quantity"), request.values.get("to_currency"), float(round(form.to_quantity.data,8)), round(form.unit_price.data,8))#recuperar datos del formulario html usando request                    cur.execute(query,datos)#ejecutar petición query(sqlite) con los datos obtenidos(request)
                 cur.execute(query,datos)#ejecutar petición query(sqlite) con los datos obtenidos(request)
                 conn.commit()#EN INSERT HACER SIEMPRE COMMIT O NO GRABA EN BASE DE DATOS
                 conn.close()#SIEMPRE CERRAR LA CONEXIÓN A BASE DE DATOS PARA EVITAR POSIBLES INTRUSIONES
@@ -85,7 +85,7 @@ def purchase():
                         conn = sqlite3.connect(app.config["BASE_DATOS"])#ABRIR CONEXIÓN A BASE DE DATOS(en ficehro _config.py)
                         cur = conn.cursor()#CREAR CURSOR PARA USAR DURANTE LA CONEXIÓN
                         query_btc_eur = "INSERT INTO movements (date, time, from_currency,from_quantity,to_currency, to_quantity, unit_price ) VALUES (?, ?, ?, ?, ?, ?, ?);"#petición query para usar dentro de la base de datos
-                        datos_btc_eur = (str(now.date()), time, request.values.get("from_currency"), request.values.get("from_quantity"), request.values.get("to_currency"), float(form.to_quantity.data), form.unit_price.data)#recuperar datos del formulario html usando request                    cur.execute(query,datos)#ejecutar petición query(sqlite) con los datos obtenidos(request)
+                        datos_btc_eur = (str(now.date()), time, request.values.get("from_currency"), request.values.get("from_quantity"), request.values.get("to_currency"), float(round(form.to_quantity.data,8)), round(form.unit_price.data,8))#recuperar datos del formulario html usando request                    cur.execute(query,datos)#ejecutar petición query(sqlite) con los datos obtenidos(request)
                         cur.execute(query_btc_eur,datos_btc_eur)#ejecutar petición query(sqlite) con los datos obtenidos(request)
                         conn.commit()#EN INSERT HACER SIEMPRE COMMIT O NO GRABA EN BASE DE DATOS
                         conn.close()#SIEMPRE CERRAR LA CONEXIÓN A BASE DE DATOS PARA EVITAR POSIBLES INTRUSIONES
@@ -106,7 +106,7 @@ def purchase():
                         conn = sqlite3.connect(app.config["BASE_DATOS"])#ABRIR CONEXIÓN A BASE DE DATOS(en ficehro _config.py)
                         cur = conn.cursor()#CREAR CURSOR PARA USAR DURANTE LA CONEXIÓN
                         query_new_saldo_from = "INSERT INTO movements (date, time, from_currency,from_quantity,to_currency, to_quantity, unit_price ) VALUES (?, ?, ?, ?, ?, ?, ?);"#petición query para usar dentro de la base de datos
-                        datos_saldo_from = (str(now.date()), time, request.values.get("from_currency"), request.values.get("from_quantity"), request.values.get("to_currency"), float(form.to_quantity.data), form.unit_price.data)#recuperar datos del formulario html usando request                    cur.execute(query,datos)#ejecutar petición query(sqlite) con los datos obtenidos(request)
+                        datos_saldo_from = (str(now.date()), time, request.values.get("from_currency"), request.values.get("from_quantity"), request.values.get("to_currency"), float(round(form.to_quantity.data,8)), round(form.unit_price.data,8))#recuperar datos del formulario html usando request                    cur.execute(query,datos)#ejecutar petición query(sqlite) con los datos obtenidos(request)
                         cur.execute(query_new_saldo_from,datos_saldo_from)#ejecutar petición query(sqlite) con los datos obtenidos(request)
                         conn.commit()#EN INSERT HACER SIEMPRE COMMIT O NO GRABA EN BASE DE DATOS
                         conn.close()#SIEMPRE CERRAR LA CONEXIÓN A BASE DE DATOS PARA EVITAR POSIBLES INTRUSIONES
@@ -127,7 +127,7 @@ def purchase():
                     conn = sqlite3.connect(app.config["BASE_DATOS"])#ABRIR CONEXIÓN A BASE DE DATOS(en ficehro _config.py)
                     cur = conn.cursor()#CREAR CURSOR PARA USAR DURANTE LA CONEXIÓN
                     query_new_saldo_from = "INSERT INTO movements (date, time, from_currency,from_quantity,to_currency, to_quantity, unit_price ) VALUES (?, ?, ?, ?, ?, ?, ?);"#petición query para usar dentro de la base de datos
-                    datos_saldo_from = (str(now.date()), time, request.values.get("from_currency"), request.values.get("from_quantity"), request.values.get("to_currency"), float(form.to_quantity.data), form.unit_price.data)#recuperar datos del formulario html usando request                    cur.execute(query,datos)#ejecutar petición query(sqlite) con los datos obtenidos(request)
+                    datos_saldo_from = (str(now.date()), time, request.values.get("from_currency"), request.values.get("from_quantity"), request.values.get("to_currency"), float(round(form.to_quantity.data,8)), round(form.unit_price.data,8))#recuperar datos del formulario html usando request                    cur.execute(query,datos)#ejecutar petición query(sqlite) con los datos obtenidos(request)
                     cur.execute(query_new_saldo_from,datos_saldo_from)#ejecutar petición query(sqlite) con los datos obtenidos(request)
                     conn.commit()#EN INSERT HACER SIEMPRE COMMIT O NO GRABA EN BASE DE DATOS
                     conn.close()#SIEMPRE CERRAR LA CONEXIÓN A BASE DE DATOS PARA EVITAR POSIBLES INTRUSIONES
@@ -147,7 +147,7 @@ def purchase():
                     conn = sqlite3.connect(app.config["BASE_DATOS"])#ABRIR CONEXIÓN A BASE DE DATOS(en ficehro _config.py)
                     cur = conn.cursor()#CREAR CURSOR PARA USAR DURANTE LA CONEXIÓN
                     query_new_saldo_from = "INSERT INTO movements (date, time, from_currency,from_quantity,to_currency, to_quantity, unit_price ) VALUES (?, ?, ?, ?, ?, ?, ?);"#petición query para usar dentro de la base de datos
-                    datos_saldo_from = (str(now.date()), time, request.values.get("from_currency"), request.values.get("from_quantity"), request.values.get("to_currency"), float(form.to_quantity.data), form.unit_price.data)#recuperar datos del formulario html usando request                    cur.execute(query,datos)#ejecutar petición query(sqlite) con los datos obtenidos(request)
+                    datos_saldo_from = (str(now.date()), time, request.values.get("from_currency"), request.values.get("from_quantity"), request.values.get("to_currency"), float(round(form.to_quantity.data,8)), round(form.unit_price.data,8))#recuperar datos del formulario html usando request                    cur.execute(query,datos)#ejecutar petición query(sqlite) con los datos obtenidos(request)
                     cur.execute(query_new_saldo_from,datos_saldo_from)#ejecutar petición query(sqlite) con los datos obtenidos(request)
                     conn.commit()#EN INSERT HACER SIEMPRE COMMIT O NO GRABA EN BASE DE DATOS
                     conn.close()#SIEMPRE CERRAR LA CONEXIÓN A BASE DE DATOS PARA EVITAR POSIBLES INTRUSIONES
@@ -233,7 +233,7 @@ def status():
                     pass
 
             elif saldo_disponible_cripto != None and saldo_gastado_cripto == None:#si se ha invertido pero no se ha gastado
-                if saldo_disponible_cripto > 0.00:
+                if saldo_disponible_cripto > 0.0:
                     APIKEY = "56bf6ce0-65f1-4f1f-82ef-b4d65deabe25"
                     URL = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={}&symbol={}&convert={}&CMC_PRO_API_KEY={}"
                     respuesta = requests.get(URL.format(saldo_disponible_cripto, cripto, "EUR", APIKEY))

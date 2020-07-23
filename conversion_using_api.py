@@ -4,16 +4,15 @@ import requests
 from configparser import *
 from flask import Flask, render_template, request, redirect, url_for
  
-"""
-#esconder la APIKEY en fichero config.ini NO FUNCIONA
+
+
 config = ConfigParser()
 config.read('./config.ini')
-APIKEY = config['DEFAULT']['APIKEY']
-"""
+APIKEY = config['COINMARKET_API']['APIKEY']
+
 
 
 def find_cryptos():
-    APIKEY = "56bf6ce0-65f1-4f1f-82ef-b4d65deabe25"
 
     URL = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={}&symbol={}&convert={}&CMC_PRO_API_KEY={}"
 

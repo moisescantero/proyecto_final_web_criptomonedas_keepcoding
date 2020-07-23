@@ -40,7 +40,7 @@
                 {% endfor %}
                 
                 {% for money in total_criptos_a_euro %}
-                    {{"Total euros"}} {{"-"}} {{money}} {{ "EUR" }}
+                    {{"Total euros"}} {{"-"}} {{money | round(8, 'ceil')}} {{ "EUR" }}
                 {% endfor %}
 
                 </td>

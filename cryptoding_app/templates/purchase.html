@@ -26,12 +26,10 @@
                {{ form.to_currency() }}
 
                {{ form.to_quantity.label }} 
-               {{ form.to_quantity.data }}
+               {{ form.to_quantity.data | round(8, 'ceil') }}
                
                {{ form.unit_price.label }} 
-               {{ form.unit_price.data }}
-               {{ form.error_no_btc }}        
-
+               {{ form.unit_price.data | round(8, 'ceil')  }}  
 
                {{ form.calc_button }}
 
